@@ -1,57 +1,59 @@
 ﻿using System;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace AutomationTut.by
 {
-    public class TUT_BY_page
+    public class TUT_BY_page : Base
     {
-        private IWebDriver driver;
-
-        public TUT_BY_page(IWebDriver driver)
+        public TUT_BY_page(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
-            this.driver = driver;
+
         }
 
-        internal protected IWebElement searhField => driver.FindElement(By.XPath("//input[@id='search_from_str']"));
-
-        string login = "aliaksandranovikava@tut.by";
-        string password = "sasha220982";
+        public string baseURL = @"https://www.tut.by/";
+        public string headerLogoLocator = "//a[@class= 'header-logo']";
+        public string searchFieldLocator = "//input[@id='search_from_str']";
+        public string searchButtonLocator = "//input[@name= 'search']";
+        public string logo = "Белорусский портал";
         public string loggin = "//a[@data-target-popup ='authorize-form']";
-        public string login_field = "//input[@name='login']";
-        public string password_field = "//input[@type='password']";
-
-        public string enter_button = "//input[@class ='button auth__enter']";
-        public string  name_button = "//span[@class ='uname']";
-        public string mail_button = "//*[@id='authorize']/div/div/div/div/ul/li[2]/a";
+        public string loginField = "//input[@name='login']";
+        public string passwordField = "//input[@type='password']";
+        public string enterButton = "//input[@value ='Войти']";
+        public string nameButton = "//span[@class ='uname']";
+        public string mailButton = "//*[@id='authorize']/div/div/div/div/ul/li[2]/a";
+       
+        string login = GetCredValue("login");
+        string password = GetCredValue("password");
 
         public void ClickOnLogginButton()
         {
-            driver.FindElement(By.XPath(loggin)).Click();
+            ClickButton(loggin);
         }
 
         public void WriteLogin()
         {
-            driver.FindElement(By.XPath(login_field)).SendKeys(login);
+            WriteText(loginField, login);
         }
 
         public void WritePassword()
         {
-            driver.FindElement(By.XPath(password_field)).SendKeys(password);
+            WriteText(passwordField, password);
         }
 
         public void ClickOnEnterButton()
         {
-            driver.FindElement(By.XPath(enter_button)).Click();
+            ClickButton(enterButton);
         }
 
         public void ClickOnNameButton()
         {
-            driver.FindElement(By.XPath(name_button)).Click();
+            ClickButton(nameButton);
         }
 
         public void ClickOnMailButton()
         {
-            driver.FindElement(By.XPath(mail_button)).Click();
+            ClickButton(mailButton);
         }
 
     }

@@ -3,81 +3,77 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
+
+
 namespace AutomationTut.by
 {
-    public class Email_page
+    public class Email_page : Base
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private DateTime currentTime = DateTime.Now;
+        public DateTime currentTime = DateTime.Now;
 
-        public Email_page(IWebDriver driver, WebDriverWait wait)
+        public Email_page(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
-            this.driver = driver;
-            this.wait = wait;
-        }
-        public string write_button = "//span[@class = 'mail-ComposeButton-Text']";
-        public string email_page_element = "//span[@class = 'mail-ComposeButton-Text']";
-        public string myself_button = "//span[@data-name='Себе']";
-        public string topic_field = "//input[@name='subj-cf13901edc6bd24be0c3dee0cde1ac3a3362ff06']";
-        public string message_field= "//div[@id='cke_1_contents']/div/div";
-        public string send_button = "//div/button/span/span/span";
-        public string refresh_button = "//*[@id='nb-1']/body/div[2]/div[6]/div/div[3]/div[2]/div[2]/div/div/span";
-        public string message_topic = "//*[@id='nb-1']/body/div[2]/div[6]/div/div[3]/div[3]/div[2]/div[5]/div[1]/div/div/div[2]/div/div[1]/div/div/div/a/div/span[2]/div/span/span[1]/span[1]/span";
-        public string done_massage = "//div[class='mail-Done js-done']";
-        public void SwitchToEmailPage() {
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
         }
 
-        public void ClickOnWriteButton(){
-            driver.FindElement(By.XPath(write_button)).Click();
+        public string writeButton = "//span[@class = 'mail-ComposeButton-Text']";
+        public string emailPageElement = "//span[@class = 'mail-ComposeButton-Text']";
+        public string myselfButton = "//span[@data-name='Себе']";
+        public string topicField = "//input[@name='subj-cf13901edc6bd24be0c3dee0cde1ac3a3362ff06']";
+        public string messageField = "//div[@id='cke_1_contents']/div/div";
+        public string sendButton = "//div/button/span/span/span";
+        public string refreshButton = "//span[@data-click-action='mailbox.check']";
+        public string messageTopic = "//*[@id='nb-1']/body/div[2]/div[6]/div/div[3]/div[3]/div[2]/div[5]/div[1]/div/div/div[2]/div/div[1]/div/div/div/a/div/span[2]/div/span/span[1]/span[1]/span";
+        public string doneMassage = "//*[text()='Письмо отправлено.']";
+
+        public void SwitchToEmailPage()
+        {
+            SwitchPage();
+        }
+
+        public void ClickOnWriteButton()
+        {
+            ClickButton(writeButton);
         }
 
         public void ClickOnMyselfButton()
         {
-            driver.FindElement(By.XPath(myself_button)).Click();
+            Wait(myselfButton);
+            ClickButton(myselfButton);
         }
         public void ClickOnSendButton()
         {
-            driver.FindElement(By.XPath(send_button)).Click();
+            ClickButton(sendButton);
         }
 
         public void ClickOnRefreshButton()
         {
-            driver.FindElement(By.XPath(refresh_button)).Click();
+            Wait(doneMassage);
+            ClickButton(refreshButton);
         }
 
-        public void WaitEmailPage() {
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(email_page_element)));
-        }
-
-        public void WaitMySelfButton() {
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(myself_button)));
-        }
-
-        public void WaitToRefresh()
+        public void WaitEmailPage()
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(refresh_button)));
+            Wait(emailPageElement);
         }
 
-        public void WaitMessageTopic()
+        public void WriteMessage()
         {
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(message_topic)));
+            text = "Message";
+            WriteText(messageField, text);
         }
 
-        public void WriteMessage() {
-            driver.FindElement(By.XPath(message_field)).SendKeys("Message");
-
+        public void WriteTopic()
+        {
+            text = currentTime.ToString("h:mm:ss tt");
+            WriteText(topicField, text);
         }
 
-        public void WriteTopic() {
-            driver.FindElement(By.XPath(topic_field)).SendKeys(currentTime.ToString("h:mm:ss tt"));
-        }
-
-        public string GetMessageTopic() {
-            
-           string topic =  driver.FindElement(By.XPath(message_topic)).GetAttribute("title");
-           return topic;
+        public string GetMessageTopic()
+        {
+            Wait(messageTopic);
+            attribute = "title";
+            string topic = GetAttribute(messageTopic, attribute);
+            return topic;
         }
 
     }
