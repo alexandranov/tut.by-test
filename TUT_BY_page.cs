@@ -21,8 +21,8 @@ namespace AutomationTut.by
         public string passwordField = "//input[@type='password']";
         public string enterButton = "//input[@value ='Войти']";
         public string nameButton = "//span[@class ='uname']";
-        public string mailButton = "//*[@id='authorize']/div/div/div/div/ul/li[2]/a";
-       
+        public string mailButton = "//*[@id='authorize']/descendant::li[2]/a";
+        
         string login = GetCredValue("login");
         string password = GetCredValue("password");
 

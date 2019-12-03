@@ -22,7 +22,7 @@ namespace AutomationTut.by
         public string messageField = "//div[@id='cke_1_contents']/div/div";
         public string sendButton = "//div/button/span/span/span";
         public string refreshButton = "//span[@data-click-action='mailbox.check']";
-        public string messageTopic = "//*[@id='nb-1']/body/div[2]/div[6]/div/div[3]/div[3]/div[2]/div[5]/div[1]/div/div/div[2]/div/div[1]/div/div/div/a/div/span[2]/div/span/span[1]/span[1]/span";
+        public string messageTopic = "//div[@class='mail-MessageSnippet-Content']/span[2]/div/span/span[1]/span[1]/span";
         public string doneMassage = "//*[text()='Письмо отправлено.']";
 
         public void SwitchToEmailPage()
